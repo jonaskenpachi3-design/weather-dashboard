@@ -118,6 +118,7 @@
             <input
                 id="city-input"
                 type="text"
+                aria-label="Nome da cidade"
                 placeholder="Digite o nome de uma cidade..."
                 autocomplete="off"
             >
@@ -152,6 +153,8 @@
     <section
         id="loading"
         class="loading-card hidden"
+        role="status"
+        aria-live="polite"
     >
 
         <div class="spinner"></div>
@@ -179,6 +182,7 @@
     <section
         id="error"
         class="error-card hidden"
+        role="alert"
     >
 
         <div class="error-icon">

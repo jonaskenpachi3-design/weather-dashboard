@@ -246,6 +246,35 @@ async function searchCity(
     }
 
 
+    await loadLocation(
+        () => getLocation(city)
+    );
+
+}
+
+
+/*
+ * Carrega uma cidade favorita usando as
+ * coordenadas já salvas, sem pesquisar o
+ * nome de novo (evita cair em outra cidade
+ * com o mesmo nome).
+ */
+
+async function openFavorite(
+    favorite
+) {
+
+    await loadLocation(
+        async () => favorite
+    );
+
+}
+
+
+async function loadLocation(
+    resolveLocation
+) {
+
     showLoading();
 
     hideError();
@@ -254,7 +283,7 @@ async function searchCity(
     try {
 
         const location =
-            await getLocation(city);
+            await resolveLocation();
 
 
         if (!location) {
@@ -461,10 +490,17 @@ function updateDate() {
         new Date();
 
 
+    // A API devolve o fuso da cidade ("timezone": "auto"),
+    // então data e hora refletem o local pesquisado.
+    const timeZone =
+        currentCity.weather.timezone;
+
+
     currentDate.textContent =
         now.toLocaleDateString(
             "pt-BR",
             {
+                timeZone,
                 weekday: "long",
                 day: "2-digit",
                 month: "long"
@@ -476,6 +512,7 @@ function updateDate() {
         now.toLocaleTimeString(
             "pt-BR",
             {
+                timeZone,
                 hour: "2-digit",
                 minute: "2-digit"
             }
@@ -520,16 +557,6 @@ function updateCurrentWeather() {
         `${Math.round(
             current.apparent_temperature
         )}°C`;
-
-
-    humidity.textContent =
-        `${current.relative_humidity_2m}%`;
-
-
-    wind.textContent =
-        `${Math.round(
-            current.wind_speed_10m
-        )} km/h`;
 
 
     conditionStatus.textContent =
@@ -596,11 +623,19 @@ function getWeatherDescription(code) {
 
         55: "Garoa intensa",
 
+        56: "Garoa congelante leve",
+
+        57: "Garoa congelante intensa",
+
         61: "Chuva leve",
 
         63: "Chuva moderada",
 
         65: "Chuva forte",
+
+        66: "Chuva congelante leve",
+
+        67: "Chuva congelante forte",
 
         71: "Neve leve",
 
@@ -608,11 +643,17 @@ function getWeatherDescription(code) {
 
         75: "Neve forte",
 
+        77: "Grãos de neve",
+
         80: "Pancadas de chuva",
 
         81: "Pancadas moderadas",
 
         82: "Pancadas fortes",
+
+        85: "Pancadas de neve leves",
+
+        86: "Pancadas de neve fortes",
 
         95: "Trovoadas",
 
@@ -637,7 +678,7 @@ function getWeatherDescription(code) {
 
 function getShortCondition(code) {
 
-    if (code === 0)
+    if (code <= 1)
         return "Limpo";
 
 
@@ -659,6 +700,10 @@ function getShortCondition(code) {
 
     if (code <= 82)
         return "Pancadas";
+
+
+    if (code <= 86)
+        return "Neve";
 
 
     return "Tempestade";
@@ -702,6 +747,10 @@ function getWeatherEmoji(code) {
 
     if (code <= 82)
         return "🌦";
+
+
+    if (code <= 86)
+        return "❄";
 
 
     return "⛈";
@@ -1294,8 +1343,8 @@ function renderFavorites() {
                     "click",
                     () => {
 
-                        searchCity(
-                            city.name
+                        openFavorite(
+                            city
                         );
 
                     }
