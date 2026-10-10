@@ -99,3 +99,76 @@ As cidades favoritas ficam armazenadas no navegador através do:
 
 ```javascript
 localStorage
+```
+
+Ao clicar em uma cidade favorita, o Weatherly usa as coordenadas salvas, então cidades com nomes iguais não se confundem.
+
+---
+
+### 🌙 Tema claro e escuro
+
+O tema escolhido fica salvo no navegador e é restaurado na próxima visita.
+
+---
+
+### ⚠️ Tratamento de erros
+
+- Aviso quando a cidade não é encontrada.
+- Mensagens claras quando a consulta à API falha.
+- Se o Chart.js não carregar, o restante do dashboard continua funcionando e o gráfico mostra um aviso.
+- Se o navegador bloquear o `localStorage`, favoritos e tema simplesmente não são salvos.
+
+---
+
+## 🛠️ Tecnologias
+
+| Camada | Tecnologias |
+| --- | --- |
+| Interface | HTML5, CSS3, JavaScript (sem frameworks) |
+| Gráfico | [Chart.js](https://www.chartjs.org/) 4 (via CDN) |
+| Dados | [Open-Meteo](https://open-meteo.com/): API de geocodificação e de previsão do tempo (sem necessidade de chave) |
+| Hospedagem | GitHub Pages |
+
+---
+
+## 📁 Estrutura do projeto
+
+```text
+weather-dashboard/
+├── index.html    # Estrutura da página
+├── style.css     # Estilos, tema claro/escuro e responsividade
+├── script.js     # Busca, API, gráfico, favoritos e tema
+└── README.md
+```
+
+---
+
+## 🚀 Como executar
+
+Não há dependências para instalar. Clone o repositório e abra o `index.html` no navegador:
+
+```bash
+git clone https://github.com/jonaskenpachi3-design/weather-dashboard.git
+cd weather-dashboard
+```
+
+Se preferir servir por HTTP local:
+
+```bash
+python3 -m http.server 8000
+# acesse http://localhost:8000
+```
+
+Ao abrir, o dashboard carrega a previsão de **Rio Branco**. Use a busca para trocar de cidade.
+
+---
+
+## 🌐 Dados meteorológicos
+
+Os dados vêm da API gratuita do [Open-Meteo](https://open-meteo.com/). A data e o horário exibidos seguem o fuso da cidade pesquisada.
+
+---
+
+## 👤 Autor
+
+Desenvolvido por **Jonas Sousa**.
