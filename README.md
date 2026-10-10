@@ -172,3 +172,9 @@ Os dados vêm da API gratuita do [Open-Meteo](https://open-meteo.com/). A data e
 ## 👤 Autor
 
 Desenvolvido por **Jonas Sousa**.
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE).
